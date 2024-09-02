@@ -26,4 +26,24 @@ export class InvoiceRepositoryImpl implements InvoiceRepository {
     const invoices = await this.invoiceModel.find().exec();
     return invoices;
   }
+
+  async findAllForToday(): Promise<Invoice[]> {
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999);
+
+    return this.invoiceModel
+      .find({
+        date: {
+          $gte: startOfDay,
+          $lte: endOfDay,
+        },
+      })
+      .exec()
+      .then((invoices: InvoiceDocument[]) =>
+        invoices.map((invoice) => invoice.toObject() as Invoice),
+      );
+  }
 }

@@ -4,5 +4,5 @@ export interface InvoiceRepository {
   save(invoice: CreateInvoiceDto): Promise<Invoice>;
   findById(id: string): Promise<Invoice | null>;
   findAll(): Promise<Invoice[]>;
-  findAllForToday(): Promise<Invoice[]>; // New method
+  findAllForToday(): Promise<Invoice[]>;
 }

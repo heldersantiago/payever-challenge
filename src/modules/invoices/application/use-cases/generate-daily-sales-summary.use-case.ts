@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { InvoiceRepository } from '../ports/invoice-repository';
+import { InvoiceRepositoryImpl } from '../../infrastructure/repositories/invoice.repository';
 
 @Injectable()
 export class GenerateDailySalesSummaryUseCase {
-  constructor(private readonly invoiceRepository: InvoiceRepository) {}
+  constructor(private readonly invoiceRepository: InvoiceRepositoryImpl) {}
 
   async execute(): Promise<any> {
     const invoices = await this.invoiceRepository.findAllForToday();
