@@ -1,20 +1,27 @@
 import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { InvoicesService } from '../../application/services/invoice.service';
 import { CreateInvoiceDto } from '../../interfaces/dtos/create-invoice-dto';
-import { Invoice } from '../../domain/entities/invoice.entity';
 
 @Controller('api/v1/invoices')
 export class InvoicesController {
   constructor(private readonly invoicesService: InvoicesService) {}
 
   @Post()
-  createInvoice(@Body() createInvoiceDto: Invoice) {
-    return this.invoicesService.create(createInvoiceDto);
+  createInvoice(@Body() createInvoiceDto: CreateInvoiceDto) {
+    try {
+      return this.invoicesService.create(createInvoiceDto);
+    } catch (error) {
+      return { error };
+    }
   }
 
   @Get(':id')
   getInvoiceById(@Param('id') id: string) {
-    return this.invoicesService.findById(id);
+    try {
+      return this.invoicesService.findById(id);
+    } catch (error) {
+      return { error };
+    }
   }
 
   @Get()

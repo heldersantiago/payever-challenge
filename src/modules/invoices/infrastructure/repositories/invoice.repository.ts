@@ -11,19 +11,19 @@ export class InvoiceRepositoryImpl implements InvoiceRepository {
     private readonly invoiceModel: Model<InvoiceDocument>,
   ) {}
 
-  async save(invoice: Invoice): Promise<any> {
+  async save(invoice: CreateInvoiceDto): Promise<any> {
     const createdInvoice = new this.invoiceModel(invoice);
     const savedInvoice = await createdInvoice.save();
     return savedInvoice; // Convert to plain object and cast to Invoice
   }
 
   async findById(id: string): Promise<any> {
-    const invoice = await this.invoiceModel.findById(id).lean().exec();
+    const invoice = await this.invoiceModel.findById(id).exec();
     return invoice;
   }
 
   async findAll(): Promise<any> {
-    const invoices = await this.invoiceModel.find().lean().exec();
+    const invoices = await this.invoiceModel.find().exec();
     return invoices;
   }
 }
