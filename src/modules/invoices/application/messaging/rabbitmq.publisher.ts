@@ -5,7 +5,7 @@ import amqp, { Channel, ChannelWrapper } from 'amqp-connection-manager';
 export class RabbitMQPublisher implements OnModuleDestroy {
   private channelWrapper: ChannelWrapper;
   constructor() {
-    const connection = amqp.connect(['amqp://localhost']);
+    const connection = amqp.connect([process.env.RABBITMQ_URI]);
     this.channelWrapper = connection.createChannel({
       setup: (channel: Channel) => {
         return channel.assertQueue('daily_sales_report', { durable: true });
@@ -18,9 +18,6 @@ export class RabbitMQPublisher implements OnModuleDestroy {
       await this.channelWrapper.sendToQueue(
         queue,
         Buffer.from(JSON.stringify(message)),
-        {
-          persistent: true,
-        },
       );
 
       Logger.log(`Sent to ${queue}`);

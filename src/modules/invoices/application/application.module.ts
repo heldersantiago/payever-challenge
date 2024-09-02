@@ -4,26 +4,10 @@ import { InfrastructureModule } from '../infrastructure/infrastructure.module';
 import { CronService } from './services/cron-job.service';
 import { GenerateDailySalesSummaryUseCase } from './use-cases/generate-daily-sales-summary.use-case';
 import { RabbitMQPublisher } from './messaging/rabbitmq.publisher';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
-  imports: [
-    forwardRef(() => InfrastructureModule),
-    ClientsModule.register([
-      {
-        name: 'INVOICES_SERVICE',
-        transport: Transport.RMQ,
-        options: {
-          urls: [process.env.RABBITMQ_URI],
-          queue: 'daily_sales_report',
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-    ]),
-  ],
+  imports: [forwardRef(() => InfrastructureModule), ScheduleModule.forRoot({})],
   providers: [
     InvoicesService,
     CronService,

@@ -10,11 +10,9 @@ export class CronService {
     private readonly rabbitMQPublisher: RabbitMQPublisher,
   ) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_NOON)
   async handleCron() {
-    const summary = 'Iniciado com sucesso';
-    Logger.log('Long enviado com sucesso');
-    console.log('Message sent');
+    const summary = this.generateDailySalesSummaryUseCase.execute();
     await this.rabbitMQPublisher.publish('daily_sales_report', summary);
   }
 }
