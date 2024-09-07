@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { InfrastructureModule } from './infrastructure/infrastructure.module';
+import { DomainModule } from './domain/domain.module';
+import { ApplicationModule } from './application/application.module';
 
 @Module({
-  imports: [],
+  imports: [ApplicationModule, DomainModule, InfrastructureModule],
   providers: [],
 })
 export class InvoiceModule {}

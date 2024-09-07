@@ -1,5 +1,4 @@
 import { InvoiceItem } from './invoice-item.entity';
-
 export class Invoice {
   constructor(
     public readonly id: string,
